@@ -35,4 +35,15 @@ int isEmpty(sqList L) {
     return L.currentLength == 0 ? 0 : 1;
 }
 
+/*
+* ²åÈëÔªËØ
+* 
+*/
+int insertBefore(sqList *L, int position, int insertElement) {
+    if(position < 1 || position > L -> currentLength + 1)
+}
+
+
+
+
 #endif
