@@ -15,9 +15,14 @@ typedef struct {
 } sqList;
 
 /*
+*   关键函数是 初始化initList 和 插入元素listInsert
+*/
+
+/*
 * 初始化列表
 * @prama {sqList*} L 一个sqList类型变量
 * @return {int} 状态码 0 成功 1 失败
+* 算法2.3
 */
 int initList(sqList *L) {
     L -> elem = (int*)malloc(LIST_INIT_SIZE * sizeof(int));
@@ -31,8 +36,8 @@ int initList(sqList *L) {
 * 是否是空列表
 * @return {int} 状态码 0 为空 1 不为空
 */
-int isEmpty(sqList L) {
-    return L.currentLength == 0 ? 0 : 1;
+int isEmpty(sqList *L) {
+    return L->currentLength == 0 ? 0 : 1;
 }
 
 /*
@@ -45,7 +50,7 @@ int listLength(sqList L) {
 
 /*
 * 插入元素 替换目标位置的元素 后面的元素向后移
-* 
+* 算法2.4
 */
 int listInsert(sqList *L, int position, int insertElement) {
     //  1 2 3
@@ -107,6 +112,7 @@ int unshift(sqList *L, int unshiftElement) {
 
 /*
 *  删除某个位置的元素 并用变量返回
+*  算法2.5
 */
 int deleteListElement(sqList *L, int position, int *feedBack) {
     int *dest; // 目标指针
@@ -191,6 +197,8 @@ void destoryList(sqList *L) {
     L->elem = NULL;
     L->currentSize = 0;
     L->currentLength = 0;
+
+    // free(L);
 }
 
 /*
@@ -202,6 +210,99 @@ int getListItem(sqList *L, int position, int *feedBack) {
         return 1;
     }
     *feedBack = L->elem[position];
+    return 0;
+}
+
+/*
+* findIndex 
+* @returns 失败返回-1 成功返回第一个匹配的索引
+* c99之前没有 布尔值 所以用0,1代替
+* 算法2.6
+*/
+int findIndex(sqList *L, int(*callBack)(int, int)) {
+    int index;
+    if(L->currentLength <= 0) {
+        printf("findIndex数组为空\n");
+        return 1;
+    }
+    for(index = 0; index < L->currentLength; index++) {
+        int res = callBack(L->elem[index], index);
+        if(res) {
+            return index;
+        }
+    }
+    return -1;
+}
+
+/*
+* 获取某个值的位置
+* @returns 失败返回-1 成功返回第一个匹配的索引
+*/
+int getItem(sqList *L, int value) {
+    int index;
+    if(L->currentLength <= 0) {
+        printf("findIndex数组为空\n");
+        return 1;
+    }
+    for(index = 0; index < L->currentLength; index++) {
+        int res = value == L->elem[index] ? 1 : 0;
+        if(res) {
+            return index;
+        }
+    }
+    return -1;
+}
+
+
+
+/*
+* 返回某个元素的前驱节点
+* 由于第二个参数 参考点直接传的值 所以这个函数不能区分重复值
+*/
+int priorElem(sqList *L, int current, int *prev) {
+    int index = 0;
+    if(!isEmpty(L)){
+        printf("查找前驱,数组为空\n");
+        return 1;
+    }
+     // 第一个节点 没有前驱
+    if(current == L->elem[0]) {
+        printf("第一个节点没有前驱\n");
+        return 1;
+    }
+    
+    for(index; index < L->currentLength; index++) {
+        if(L->elem[index+1] == current) {
+            *prev = L->elem[index];
+            break;
+        }
+    }
+
+    return 0;
+}
+
+/*
+* 获取后驱
+*/
+int nextElem(sqList *L, int current, int *next) {
+    int index = 1;
+    if(!isEmpty(L)){
+        printf("查找前驱,数组为空\n");
+        return 1;
+    }
+     // 最后一个节点 没有后驱
+    if(current == L->elem[L->currentLength - 1]) {
+        printf("最后一个节点没有后驱\n");
+        return 1;
+    }
+
+    for(index; index < L->currentLength; index++) {
+        if(L->elem[index-1] == current) {
+            *next = L->elem[index];
+            break;
+        }
+    }
+
     return 0;
 }
 #endif
