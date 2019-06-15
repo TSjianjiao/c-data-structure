@@ -3,19 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "线性表"=".\线性表\线性表.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "线性链表"=".\线性链表\线性链表.dsp" - Package Owner=<4>
+Project: "线性链表"=".\线性链表.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
